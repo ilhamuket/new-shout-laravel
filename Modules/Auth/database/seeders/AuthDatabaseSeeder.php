@@ -11,6 +11,9 @@ class AuthDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        $this->call([
+            \Modules\Auth\Database\Seeders\AuthRolePermissionSeeder::class,
+            \Modules\Auth\Database\Seeders\AuthUserSeeder::class,
+        ]);
     }
 }
