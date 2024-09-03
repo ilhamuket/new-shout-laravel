@@ -14,15 +14,21 @@ use Modules\Auth\Http\Controllers\AuthController;
  *
 */
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('auth', AuthController::class)->names('auth');
-});
 
-Route::prefix('v1')->group(function () {
+Route::group([
+    'prefix' => 'v1',
+], function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
-    Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
-    Route::post('refresh', [AuthController::class, 'refresh'])->middleware('auth:api');
+});
+
+
+Route::group([
+    'prefix' => 'v1',
+    'middleware' => ['auth:api'],
+], function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('user-get', [AuthController::class, 'userGet']);
     Route::post('password/reset', [AuthController::class, 'resetPassword']);
     Route::post('password/update', [AuthController::class, 'updatePassword']);
