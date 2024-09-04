@@ -1,5 +1,6 @@
 {
     "Auth": true,
     "User": true,
-    "Seller": true
+    "Seller": true,
+    "General": true
 }
