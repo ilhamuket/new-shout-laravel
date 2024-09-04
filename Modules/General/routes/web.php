@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Modules\General\Http\Controllers\GeneralController;
 use Modules\General\Http\Controllers\CloudController;
+use Modules\General\Http\Controllers\ShipmentController;
+
 
 
 /*
@@ -19,4 +21,13 @@ use Modules\General\Http\Controllers\CloudController;
 Route::group([], function () {
     Route::resource('general', GeneralController::class)->names('general');
     Route::post('upload', [CloudController::class, 'upload'])->name('general.upload');
+});
+
+Route::prefix('/shipment')->group(function () {
+    Route::get('/', [ShipmentController::class, 'index']);
+    Route::get('/provinces', [ShipmentController::class, 'getProvinces']);
+    Route::get('/cities', [ShipmentController::class, 'getCitiesByProvince']);
+    Route::get('/subdistricts', [ShipmentController::class, 'getSubdistrictsByCity']);
+    Route::post('/shipping-cost', [ShipmentController::class, 'getShippingCost']);
+    Route::get('/couriers', [ShipmentController::class, 'getCouriers']);
 });

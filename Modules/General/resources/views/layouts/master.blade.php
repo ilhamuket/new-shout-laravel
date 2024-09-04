@@ -12,6 +12,7 @@
     <meta name="description" content="{{ $description ?? '' }}">
     <meta name="keywords" content="{{ $keywords ?? '' }}">
     <meta name="author" content="{{ $author ?? '' }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -27,4 +28,5 @@
 
     {{-- Vite JS --}}
     {{-- {{ module_vite('build-general', 'resources/assets/js/app.js') }} --}}
+    @yield('scripts')
 </body>
