@@ -2,5 +2,6 @@
     "Auth": true,
     "User": true,
     "Seller": true,
-    "General": true
+    "General": true,
+    "Payment": true
 }
