@@ -26,22 +26,17 @@ Ikuti langkah-langkah di bawah ini untuk menginstal aplikasi ini di lingkungan l
 
 1. **Clone repositori**:
     ```bash
-    git clone https://github.com/username/repo-name.git
+    git clone git@github.com:ilhamuket/new-shout-laravel.git
     ```
 
 2. **Pindah ke direktori proyek**:
     ```bash
-    cd repo-name
+    cd new-shout-laravel
     ```
 
 3. **Instal dependensi PHP**:
     ```bash
     composer install
-    ```
-
-4. **Instal dependensi frontend**:
-    ```bash
-    npm install
     ```
 
 5. **Salin file konfigurasi contoh**:
@@ -57,6 +52,11 @@ Ikuti langkah-langkah di bawah ini untuk menginstal aplikasi ini di lingkungan l
 7. **Jalankan migrasi database**:
     ```bash
     php artisan migrate
+    ```
+
+7. **Jalankan migrasi database**:
+    ```bash
+    php artisan jwt:install
     ```
 
 8. **Jalankan seeder database (opsional)**:
