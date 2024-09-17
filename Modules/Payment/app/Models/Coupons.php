@@ -26,5 +26,5 @@ class Coupons extends Model
     {
         return $this->hasMany(Coupon_Uses::class);
     }
-    
+
 }

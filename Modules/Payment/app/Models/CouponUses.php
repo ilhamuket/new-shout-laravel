@@ -22,7 +22,7 @@ class Coupon_uses extends Model
         'discount_value',
         'used_at',
     ];
-    
+
     public function coupons()
     {
         return $this->belongsTo(Coupons::class);

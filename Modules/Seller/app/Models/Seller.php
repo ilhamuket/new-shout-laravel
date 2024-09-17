@@ -8,7 +8,6 @@ use Modules\Product\Models\Product;
 
 class Seller extends Model
 {
-
     protected $table = 'sellers';
 
     protected $fillable = [
