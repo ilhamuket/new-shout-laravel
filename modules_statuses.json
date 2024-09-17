@@ -3,5 +3,7 @@
     "User": true,
     "Seller": true,
     "General": true,
-    "Payment": true
+    "Payment": true,
+    "Product": true,
+    "Categories": true
 }

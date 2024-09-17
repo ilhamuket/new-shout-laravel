@@ -2,7 +2,9 @@
 
 namespace Modules\Seller\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Product\Models\Product;
 
 class Seller extends Model
 {
@@ -19,5 +21,10 @@ class Seller extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function product()
+    {
+        return $this->hasMany(Product::class);
     }
 }
