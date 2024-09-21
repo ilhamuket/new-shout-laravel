@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\Constans;
 use App\Helpers\ResponseFormatter;
 use Closure;
 use Illuminate\Http\Request;
@@ -21,8 +22,8 @@ class AdminGuardMiddleware
     {
         // Check if the user is authenticated and is an admin
         $user = JWTAuth::parseToken()->authenticate();
-        $user->load('roles');
-        if (isset($user->roles) && count($user->roles) === 0 && $role === 'admin') {
+        $is_admin = in_array($role, $user->roles->pluck('name')->toArray());
+        if (!isset($user) && !$is_admin) {
             return ResponseFormatter::error("your account dont have access, contact admin for other information", 403, null, 'forbidden');
         }
 

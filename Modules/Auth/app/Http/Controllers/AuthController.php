@@ -98,11 +98,13 @@ class AuthController extends Controller
     /**
      * Get the authenticated user.
      */
-    public function userGet()
+    public function userGet(Request $request)
     {
         try {
-            $user = JWTAuth::parseToken()->authenticate();
-            $user->load('roles');
+            $entities = $request->entities;
+            // 
+            $user_id = JWTAuth::parseToken()->authenticate()->id;
+            $user = User::entities($entities)->findOrFail($user_id);
 
             return ResponseFormatter::success([
                 'id' => $user->id,

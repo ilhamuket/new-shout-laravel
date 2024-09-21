@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AdminGuardMiddleware;
 use Illuminate\Support\Facades\Route;
 use Modules\User\Http\Controllers\UserController;
 
@@ -14,7 +15,7 @@ use Modules\User\Http\Controllers\UserController;
  *
 */
 
-Route::middleware(['auth:api'])->prefix('user')->group(function () {
+Route::middleware(['auth:api', AdminGuardMiddleware::class.':admin'])->prefix('user')->group(function () {
 
     Route::get('/', [UserController::class, 'index']);
 });

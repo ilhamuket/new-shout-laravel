@@ -31,8 +31,7 @@ Route::group([
 ], function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
-    // Route::middleware([AdminGuardMiddleware::class.':admin'])->get('user-get', [AuthController::class, 'userGet']);
-    Route::get('user-get', [AuthController::class, 'userGet']);
+    Route::middleware([AdminGuardMiddleware::class.':admin'])->get('user-get', [AuthController::class, 'userGet']);
     Route::post('password/reset', [AuthController::class, 'resetPassword']);
     Route::post('password/update', [AuthController::class, 'updatePassword']);
 });

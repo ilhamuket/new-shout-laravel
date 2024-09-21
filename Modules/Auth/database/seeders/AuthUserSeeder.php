@@ -15,6 +15,9 @@ class AuthUserSeeder extends Seeder
             ['email' => 'admin@example.com'],
             [
                 'name' => 'Admin User',
+                'phone_number' => '6289656723',
+                'address' => 'Bandung',
+                'status' => 'active',
                 'password' => Hash::make('password'),
             ]
         )->assignRole('admin');
@@ -24,6 +27,9 @@ class AuthUserSeeder extends Seeder
             ['email' => 'user@example.com'],
             [
                 'name' => 'Regular User',
+                'phone_number' => '6289656723',
+                'address' => 'Bandung',
+                'status' => 'active',
                 'password' => Hash::make('password'),
             ]
         )->assignRole('user');

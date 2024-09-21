@@ -8,9 +8,15 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Modules\User\Services\UserServiceInterface;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class UserController extends Controller
 {
+    protected $user_svc;
+    public function __construct(UserServiceInterface $user_svc) {
+        $this->user_svc = $user_svc;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -18,7 +24,17 @@ class UserController extends Controller
     {
         try {
             $entities = $request->entities;
-            $user = User::entities($entities)->get();
+            $since = $request->since;
+            $until = $request->until;
+            $limit = $request->input('limit', 5);
+
+            $params = [
+                'entities' => $entities,
+                'since' => $since,
+                'until' => $until,
+                'limit' => $limit,
+            ];
+            $user = $this->user_svc->get_all($params);
 
             return ResponseFormatter::success($user, 'success', 200);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
@@ -27,13 +43,15 @@ class UserController extends Controller
             return ResponseFormatter::error('Error Query ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
         } catch (\ErrorException $e) {
             return ResponseFormatter::error('Error Exception ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        } catch(RouteNotFoundException $e) {
+            return ResponseFormatter::error('Error Exception ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
         }
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    private function create()
     {
         return view('user::create');
     }
