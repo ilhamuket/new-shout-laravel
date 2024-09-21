@@ -70,7 +70,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function seller()
     {
-        return $this->belongsTo(Seller::class);
+        return $this->hasOne(Seller::class);
     }
 
     // ==== Scope ====
