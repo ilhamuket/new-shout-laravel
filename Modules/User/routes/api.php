@@ -14,6 +14,7 @@ use Modules\User\Http\Controllers\UserController;
  *
 */
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('user', UserController::class)->names('user');
+Route::middleware(['auth:api'])->prefix('user')->group(function () {
+
+    Route::get('/', [UserController::class, 'index']);
 });

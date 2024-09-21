@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Helper;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -70,5 +71,14 @@ class User extends Authenticatable implements JWTSubject
     public function seller()
     {
         return $this->belongsTo(Seller::class);
+    }
+
+    // ==== Scope ====
+
+    /**
+     * Scope
+     */
+    public function scopeEntities($query, $entities) {
+        return Helper::entities($query, $entities);
     }
 }

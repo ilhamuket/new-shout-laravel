@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Helpers;
+namespace App\Helpers;
 
 use Illuminate\Support\Str;
 use GuzzleHttp\Client;
@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Http;
 use Mail;
 use App\Mail\SendMail;
 
-class MethodsHelpers
+class Helper
 {
     /**
      * Apply ordering to the given query based on the specified order parameter.

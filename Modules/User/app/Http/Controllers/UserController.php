@@ -2,7 +2,9 @@
 
 namespace Modules\User\Http\Controllers;
 
+use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -12,9 +14,20 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('user::index');
+        try {
+            $entities = $request->entities;
+            $user = User::entities($entities)->get();
+
+            return ResponseFormatter::success($user, 'success', 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return ResponseFormatter::error('Error Model ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return ResponseFormatter::error('Error Query ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        } catch (\ErrorException $e) {
+            return ResponseFormatter::error('Error Exception ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+        }
     }
 
     /**

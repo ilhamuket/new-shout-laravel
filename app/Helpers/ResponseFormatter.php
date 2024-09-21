@@ -29,10 +29,10 @@ class ResponseFormatter
      * @param  mixed  $errors
      * @return \Illuminate\Http\JsonResponse
      */
-    public static function error($message = 'Operation Failed', $code = 500, $errors = null)
+    public static function error($message = 'Operation Failed', $code = 500, $errors = null, $status = 'error')
     {
         $response = [
-            'status' => 'error',
+            'status' => $status,
             'message' => $message,
         ];
 

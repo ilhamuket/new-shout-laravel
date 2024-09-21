@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\AdminGuardMiddleware;
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 use Modules\Auth\Http\Controllers\AuthController;
 
@@ -29,6 +31,7 @@ Route::group([
 ], function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
+    // Route::middleware([AdminGuardMiddleware::class.':admin'])->get('user-get', [AuthController::class, 'userGet']);
     Route::get('user-get', [AuthController::class, 'userGet']);
     Route::post('password/reset', [AuthController::class, 'resetPassword']);
     Route::post('password/update', [AuthController::class, 'updatePassword']);
