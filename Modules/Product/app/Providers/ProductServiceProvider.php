@@ -4,6 +4,10 @@ namespace Modules\Product\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Product\Repositories\ProductRepository;
+use Modules\Product\Repositories\ProductRepositoryInterface;
+use Modules\Product\Services\ProductService;
+use Modules\Product\Services\ProductServiceInterface;
 
 class ProductServiceProvider extends ServiceProvider
 {
@@ -31,6 +35,12 @@ class ProductServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+
+        // Repository
+        $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
+
+        // Service
+        $this->app->bind(ProductServiceInterface::class, ProductService::class);
     }
 
     /**
