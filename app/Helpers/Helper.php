@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Http;
 use Mail;
 use App\Mail\SendMail;
 
+use DateTime;
+use DateTimeZone;
+
 class Helper
 {
     /**
@@ -318,6 +321,56 @@ class Helper
             throw new \Exception('Unable to send email. Please try again later.');
         }
     }
+
+    /**
+     * Convert local time to UTC
+     *
+     * @param  string $date
+     * @param  boolean $format
+     *
+     * @return DateTime|string $date
+     */
+    public static function local_time_to_utc($date, $timezone = 'Asia/Jakarta', $return_string = false)
+    {
+        // $date = "2018-05-04 00:00:00";
+        $date_local = new DateTime(date($date), new DateTimeZone($timezone));
+        $date_utc = clone $date_local;
+        $date_utc->setTimeZone(new DateTimeZone('UTC'));
+
+        if ($return_string) {
+            $date_utc = $date_utc->format('d-m-Y H:i:s');
+        }
+
+        return $date_utc;
+    }
+
+    /**
+     * Convert UTC time to MySQL timestamp
+     *
+     * @param  string  $date_string   The UTC date string
+     * @param  boolean $milliseconds  Whether to return the timestamp in milliseconds or not
+     *
+     * @return int|string  Timestamp in seconds or milliseconds, or a MySQL-compatible DATETIME string
+     */
+    public static function utc_time_to_timestamp($date_string, $milliseconds = true)
+    {
+        // Convert the input UTC date string to a UNIX timestamp (seconds since the Unix epoch)
+        $since_utc_timestamp_int = strtotime($date_string);
+
+        if ($since_utc_timestamp_int === false) {
+            throw new Exception("Invalid date string provided.");
+        }
+
+        // If milliseconds flag is true, multiply the timestamp by 1000
+        if ($milliseconds) {
+            // Return the timestamp in milliseconds
+            return $since_utc_timestamp_int * 1000;
+        } else {
+            // Return the timestamp in MySQL DATETIME format
+            return date('Y-m-d H:i:s', $since_utc_timestamp_int);
+        }
+    }
+
 
 
 

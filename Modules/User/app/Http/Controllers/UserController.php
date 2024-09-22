@@ -11,10 +11,11 @@ use Illuminate\Http\Response;
 use Modules\User\Services\UserServiceInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
-class UserController extends Controller
+class UserController extends Controller implements UserControllerInterface
 {
     protected $user_svc;
-    public function __construct(UserServiceInterface $user_svc) {
+    public function __construct(UserServiceInterface $user_svc)
+    {
         $this->user_svc = $user_svc;
     }
     /**
@@ -23,76 +24,26 @@ class UserController extends Controller
     public function index(Request $request)
     {
         try {
-            $entities = $request->entities;
-            $since = $request->since;
-            $until = $request->until;
-            $limit = $request->input('limit', 5);
-
-            $params = [
-                'entities' => $entities,
-                'since' => $since,
-                'until' => $until,
-                'limit' => $limit,
-            ];
-            $user = $this->user_svc->get_all($params);
-
+            $user = $this->user_svc->get_all($request);
             return ResponseFormatter::success($user, 'success', 200);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return ResponseFormatter::error('Error Model ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+            return ResponseFormatter::error('Error Model: ' . (env('APP_DEBUG', false) ? $e : ''));
         } catch (\Illuminate\Database\QueryException $e) {
-            return ResponseFormatter::error('Error Query ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+            return ResponseFormatter::error('Error Query: ' . (env('APP_DEBUG', false) ? $e : ''));
         } catch (\ErrorException $e) {
-            return ResponseFormatter::error('Error Exception ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
-        } catch(RouteNotFoundException $e) {
-            return ResponseFormatter::error('Error Exception ' . $debug = env('APP_DEBUG', false) == true ? $e : '');
+            return ResponseFormatter::error('Error Exception: ' . (env('APP_DEBUG', false) ? $e : ''));
+        } catch (RouteNotFoundException $e) {
+            return ResponseFormatter::error('Route not found: ' . (env('APP_DEBUG', false) ? $e : ''), 404);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            // return ResponseFormatter::error('Token is invalid: ' . (env('APP_DEBUG', false) ? $e : ''), 401);
+            return ResponseFormatter::error('Token is invalid: ' . $e, 401);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
+            // return ResponseFormatter::error('Token has expired: ' . (env('APP_DEBUG', false) ? $e : ''), 401);
+            return ResponseFormatter::error('Token has expired: ' . $e, 401);
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            return ResponseFormatter::error('JWT error: ' . (env('APP_DEBUG', false) ? $e : ''), 401);
+        } catch (\Exception $e) {
+            return ResponseFormatter::error('Unexpected Error: ' . (env('APP_DEBUG', false) ? $e : ''));
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    private function create()
-    {
-        return view('user::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('user::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('user::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

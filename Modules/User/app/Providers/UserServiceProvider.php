@@ -4,6 +4,8 @@ namespace Modules\User\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\User\Http\Controllers\UserController;
+use Modules\User\Http\Controllers\UserControllerInterface;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Repositories\UserRepositoryInterface;
 use Modules\User\Services\UserService;
@@ -40,6 +42,9 @@ class UserServiceProvider extends ServiceProvider
 
         // Service
         $this->app->bind(UserServiceInterface::class, UserService::class);
+
+        // Controller
+        $this->app->bind(UserControllerInterface::class, UserController::class);
     }
 
     /**

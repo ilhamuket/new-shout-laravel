@@ -78,7 +78,13 @@ class User extends Authenticatable implements JWTSubject
     /**
      * Scope
      */
-    public function scopeEntities($query, $entities) {
+    public function scopeEntities($query, $entities)
+    {
         return Helper::entities($query, $entities);
+    }
+
+    public function scopeFilterByDateRange($query, $field, $since, $until)
+    {
+        Helper::filterByDateRange($query, $field, $since, $until);
     }
 }

@@ -6,9 +6,11 @@ use App\Models\User;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function get_data(array $payload)
+    public function get_data(array $attributes)
     {
-        $user = User::entities($payload['entities'])->paginate($payload['limit']);
+        $user = User::entities($attributes['entities'])
+            ->filterByDateRange('created_at', $attributes['since'], $attributes['until'])
+            ->paginate($attributes['limit']);
 
         return $user;
     }
