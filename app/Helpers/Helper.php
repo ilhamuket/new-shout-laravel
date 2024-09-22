@@ -371,6 +371,21 @@ class Helper
         }
     }
 
+    // UTC to Local Time
+	public static function utc_to_local_time($date, $timezone = 'Asia/Jakarta', $format = 'Y-m-d H:i:s', $return_string = true)
+	{
+		// $date = "2018-05-04 00:00:00";
+		$date_utc = new DateTime(date($date));
+		$date_local = clone $date_utc;
+		$date_local->setTimeZone(new DateTimeZone($timezone));
+
+		if ($return_string) {
+			$date_local = $date_local->format($format);
+		}
+
+		return $date_local;
+	}
+
 
 
 
