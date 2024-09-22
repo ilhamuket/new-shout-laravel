@@ -35,10 +35,8 @@ class UserController extends Controller implements UserControllerInterface
         } catch (RouteNotFoundException $e) {
             return ResponseFormatter::error('Route not found: ' . (env('APP_DEBUG', false) ? $e : ''), 404);
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-            // return ResponseFormatter::error('Token is invalid: ' . (env('APP_DEBUG', false) ? $e : ''), 401);
             return ResponseFormatter::error('Token is invalid: ' . $e, 401);
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-            // return ResponseFormatter::error('Token has expired: ' . (env('APP_DEBUG', false) ? $e : ''), 401);
             return ResponseFormatter::error('Token has expired: ' . $e, 401);
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             return ResponseFormatter::error('JWT error: ' . (env('APP_DEBUG', false) ? $e : ''), 401);
