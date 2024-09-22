@@ -36,6 +36,7 @@ class UserService implements UserServiceInterface
             'until' => $until_utc_to_timestamp,
             'limit' => $limit,
         ];
+
         return $this->user_repo->get_data($payload);
     }
 }
