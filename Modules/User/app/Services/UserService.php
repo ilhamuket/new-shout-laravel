@@ -17,23 +17,27 @@ class UserService implements UserServiceInterface
 
     public function get_all(Request $request)
     {
+        $now = now();
+        $before_month = now()->subDays(30);
         $entities = $request->entities;
-        $since = $request->since;
         $until = $request->until;
+        $since = $request->since;
         $limit = $request->input('limit', 5);
 
-        if ($since && $until) {
-            $since_to_utc = (string) Helper::local_time_to_utc($since, self::TIME_ZONE, true);
-            $until_to_utc = (string) Helper::local_time_to_utc($until, self::TIME_ZONE, true);
+        if (is_null($since) && is_null($until)) {
+            $since = $before_month;
+            $until = $now;
 
-            $since_utc_to_timestamp = Helper::utc_time_to_timestamp($since_to_utc, false);
-            $until_utc_to_timestamp = Helper::utc_time_to_timestamp($until_to_utc, false);
+            $since_format = Helper::utc_to_local_time($since, self::TIME_ZONE);
+            $until_format = Helper::utc_to_local_time($until, self::TIME_ZONE);
+        } else {
+            $since_format = "$since 00:00:00";
+            $until_format = "$until 23:59:59";
         }
-
         $payload = [
             'entities' => $entities,
-            'since' => $since_utc_to_timestamp,
-            'until' => $until_utc_to_timestamp,
+            'since' => $since_format ?? null,
+            'until' => $until_format ?? null,
             'limit' => $limit,
         ];
 
