@@ -13,6 +13,7 @@ use DateTimeZone;
 
 class Helper
 {
+    const TIME_ZONE = 'Asia/Jakarta';
     /**
      * Apply ordering to the given query based on the specified order parameter.
      *
@@ -372,19 +373,48 @@ class Helper
     }
 
     // UTC to Local Time
-	public static function utc_to_local_time($date, $timezone = 'Asia/Jakarta', $format = 'Y-m-d H:i:s', $return_string = true)
-	{
-		// $date = "2018-05-04 00:00:00";
-		$date_utc = new DateTime(date($date));
-		$date_local = clone $date_utc;
-		$date_local->setTimeZone(new DateTimeZone($timezone));
+    public static function utc_to_local_time($date, $timezone = 'Asia/Jakarta', $format = 'Y-m-d H:i:s', $return_string = true)
+    {
+        // $date = "2018-05-04 00:00:00";
+        $date_utc = new DateTime(date($date));
+        $date_local = clone $date_utc;
+        $date_local->setTimeZone(new DateTimeZone($timezone));
 
-		if ($return_string) {
-			$date_local = $date_local->format($format);
-		}
+        if ($return_string) {
+            $date_local = $date_local->format($format);
+        }
 
-		return $date_local;
-	}
+        return $date_local;
+    }
+
+    /**
+     * Get formatted date range between the provided dates.
+     * 
+     * This method returns a formatted date range between the given `startDate` and `endDate`.
+     * If both are null, it defaults to the previous month and the current date.
+     *
+     * @param string|null $startDate The start date (since) in 'Y-m-d' format or null.
+     * @param string|null $endDate The end date (until) in 'Y-m-d' format or null.
+     * @return array An array with formatted start and end date strings.
+     */
+    public static function getFormattedDateRange(?string $startDate, ?string $endDate): array
+    {
+        if (is_null($startDate) && is_null($endDate)) {
+            // Default to the last month and current date
+            $startDate = $before_month;
+            $endDate = $now;
+
+            $formattedStartDate = self::utcToLocalTime($startDate, self::TIME_ZONE);
+            $formattedEndDate = self::utcToLocalTime($endDate, self::TIME_ZONE);
+        } else {
+            // Add time to start and end date for full day range
+            $formattedStartDate = "$startDate 00:00:00";
+            $formattedEndDate = "$endDate 23:59:59";
+        }
+
+        return [$formattedStartDate, $formattedEndDate];
+    }
+
 
 
 

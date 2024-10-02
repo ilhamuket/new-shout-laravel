@@ -6,8 +6,12 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Modules\User\Http\Controllers\UserController;
 use Modules\User\Http\Controllers\UserControllerInterface;
+use Modules\User\Repositories\RoleRepository;
+use Modules\User\Repositories\RoleRepositoryInterface;
 use Modules\User\Repositories\UserRepository;
 use Modules\User\Repositories\UserRepositoryInterface;
+use Modules\User\Services\RoleService;
+use Modules\User\Services\RoleServiceInterface;
 use Modules\User\Services\UserService;
 use Modules\User\Services\UserServiceInterface;
 
@@ -39,9 +43,11 @@ class UserServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
         // Repository
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(RoleRepositoryInterface::class, RoleRepository::class);
 
         // Service
         $this->app->bind(UserServiceInterface::class, UserService::class);
+        $this->app->bind(RoleServiceInterface::class, RoleService::class);
 
         // Controller
         $this->app->bind(UserControllerInterface::class, UserController::class);
